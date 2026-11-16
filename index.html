@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CupomPro: cupons de desconto das suas lojas favoritas</title>
+<meta name="description" content="Pesquise a loja e veja cupons de desconto de Shein, iFood, 99Food, Natura, Magalu, Amazon e mais. Copie o código e economize nas suas compras online.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#110c1d">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="CupomPro">
+<meta property="og:title" content="CupomPro: cupons de desconto das suas lojas favoritas">
+<meta property="og:description" content="Pesquise a loja, copie o cupom e economize. Pesquise. Economize. Sempre.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%9F%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#110c1d; --card:#1b1430; --card2:#21183b; --line:#33264f; --ink:#f4f0ff; --muted:#a99cc7;
+  --p1:#7c3aed; --p2:#a855f7; --pl:#c4a3ff; --green:#3ecf6b; --gold:#f2b632;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif}
+.app{max-width:480px;margin:0 auto;padding:16px 14px calc(96px + env(safe-area-inset-bottom,0px))}
+svg{display:block}
+header{display:flex;align-items:center;gap:12px}
+.ticket{width:56px;height:46px;flex:none}
+.brand{flex:1;min-width:0}
+.brand h1{margin:0;font-size:2rem;line-height:1;font-weight:800;letter-spacing:-.02em}
+.brand h1 span{color:var(--p2)}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.iconbtn{background:none;border:0;color:var(--ink);padding:8px;border-radius:50%;cursor:pointer}
+.search{margin-top:16px;display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:0 14px;height:54px}
+.search:focus-within{border-color:var(--p2)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--ink);font-size:1.05rem;font-family:inherit}
+.search input::placeholder{color:var(--muted)}
+.chips{display:flex;gap:10px;overflow-x:auto;margin:16px -14px 0;padding:0 14px 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 20px;border-radius:999px;font-size:1rem;font-family:inherit;cursor:pointer}
+.chip.on{background:linear-gradient(135deg,var(--p1),var(--p2));border-color:transparent;font-weight:700}
+.bar{display:flex;align-items:center;gap:12px;margin:18px 0 12px}
+.bar b{flex:1;font-size:1.05rem}
+.sort{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-family:inherit;font-size:.9rem}
+.cards{display:grid;gap:12px}
+.cp{position:relative;display:flex;align-items:center;gap:12px;background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:14px 12px}
+.rank{position:absolute;top:-6px;left:-4px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.8rem;background:var(--p1);color:#fff;border:2px solid var(--bg)}
+.rank.r1{background:var(--gold);color:#3a2a00}.rank.r2{background:#b9b9c6;color:#222}.rank.r3{background:#b8805f;color:#2a1405}
+.tag{position:absolute;top:0;right:0;background:var(--p1);color:#fff;font-size:.72rem;padding:3px 10px;border-radius:0 18px 0 12px}
+.logo{width:76px;height:76px;flex:none;border-radius:14px;background:#000;display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden;padding:4px}
+.info{flex:1;min-width:0;border-left:1px solid var(--line);padding-left:12px}
+.pct{font-size:1.5rem;font-weight:800;line-height:1.1}
+.desc{font-size:.88rem;margin:2px 0 6px;color:#ddd3f5}
+.exp{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--pl)}
+.act{width:132px;flex:none;display:grid;gap:8px;margin-top:14px}
+.code{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px dashed var(--p2);border-radius:10px;padding:7px 4px;font-size:.82rem;letter-spacing:.02em;background:none;color:var(--ink);font-family:inherit;cursor:pointer}
+.go{display:block;text-align:center;text-decoration:none;border:0;border-radius:10px;background:var(--green);color:#052b12;font-weight:800;font-size:.9rem;padding:9px 4px;cursor:pointer;font-family:inherit}
+.empty{text-align:center;color:var(--muted);padding:40px 16px;background:var(--card);border:1px dashed var(--line);border-radius:18px}
+.tip{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:16px;font-size:.85rem;color:#ddd3f5}
+.tip b{color:var(--pl);display:block;margin-bottom:2px}
+.prem{display:flex;align-items:center;gap:12px;margin-top:12px;padding:14px;border-radius:18px;background:linear-gradient(120deg,#5b21b6,#a855f7)}
+.prem div{flex:1}.prem b{font-size:1.1rem;display:block}.prem span{font-size:.82rem;opacity:.92}
+.price{border:0;border-radius:999px;background:#e9d8ff;color:#4c1d95;font-weight:800;padding:12px 14px;font-size:.88rem;cursor:pointer;font-family:inherit;white-space:nowrap}
+nav{position:fixed;left:0;right:0;bottom:0;background:#140f24;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav div{max-width:480px;margin:0 auto;display:flex}
+nav button{flex:1;background:none;border:0;color:var(--muted);display:grid;justify-items:center;gap:3px;padding:10px 0;font-size:.72rem;font-family:inherit;cursor:pointer}
+nav button.on{color:var(--p2)}
+.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#fff;color:#1c1033;padding:11px 18px;border-radius:999px;font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:30;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.me{display:grid;gap:12px;margin-top:16px}
+.mecard{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:16px}
+.mecard h2{margin:0 0 4px;font-size:1.15rem}
+.mecard p{margin:0 0 12px;color:var(--muted);font-size:.9rem}
+.hero{display:flex;gap:14px;align-items:center}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));display:grid;place-items:center;flex:none}
+.who{flex:1;min-width:0}.who b{display:block;font-size:1.05rem}.who span{display:block;color:var(--muted);font-size:.85rem;margin:2px 0 10px}
+.btns{display:flex;gap:10px}
+.btn{border-radius:12px;padding:12px 18px;font-weight:700;font-family:inherit;font-size:.95rem;cursor:pointer;border:1.5px solid var(--p2);color:var(--ink);background:none}
+.btn.solid{background:linear-gradient(135deg,var(--p1),var(--p2));border-color:transparent}
+.btn:disabled{opacity:.7;cursor:default}
+.perks{margin:0 0 14px;padding:0;list-style:none;display:grid;gap:6px;font-size:.92rem}
+.perks li::before{content:"✓ ";color:var(--green);font-weight:800}
+.form{display:grid;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:grid;gap:4px;font-size:.82rem;color:var(--muted)}
+.field[hidden]{display:none}
+.field input,.field select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px;font-size:1rem;font-family:inherit}
+.field input:focus,.field select:focus{outline:2px solid var(--p2)}
+.modal{position:fixed;inset:0;background:rgba(5,3,12,.72);display:grid;align-items:end;z-index:20}
+.modal[hidden]{display:none}
+.sheet{max-width:480px;width:100%;margin:0 auto;background:var(--card);border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:grid;gap:12px}
+.exp{flex-wrap:wrap}
+.fav{background:none;border:0;color:var(--muted);padding:2px;cursor:pointer;display:grid;border-radius:50%;margin-left:auto}
+.bigcode{border:2px dashed var(--p2);border-radius:14px;text-align:center;font-size:1.5rem;font-weight:800;letter-spacing:.06em;padding:14px;word-break:break-all;cursor:pointer}
+.steps{margin:0;padding-left:1.3em;display:grid;gap:4px;font-size:.92rem;color:#ddd3f5}
+.vt{margin:18px 0 4px;font-size:1.4rem}
+.vs{color:var(--muted);margin:0 0 12px;font-size:.9rem}
+.alrow{display:flex;gap:10px}
+.alrow input{flex:1;min-width:0;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:11px;font-size:1rem;font-family:inherit}
+.alrow input:focus{outline:2px solid var(--p2)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+.atag{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--p2);border-radius:999px;padding:5px 4px 5px 12px;font-size:.9rem}
+.atag button{background:none;border:0;color:var(--ink);font-size:1.15rem;cursor:pointer;padding:0 8px}
+.notes{display:grid;gap:10px}
+.note{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);font-size:.9rem}
+.note.new{border-color:var(--p2);background:var(--card2)}
+nav button{position:relative}
+nav button[data-n]::after{content:attr(data-n);position:absolute;top:4px;left:calc(50% + 6px);background:#ef4444;color:#fff;font-size:.65rem;font-weight:700;min-width:16px;height:16px;line-height:16px;text-align:center;border-radius:8px;padding:0 4px}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--pl);outline-offset:2px}
+@media (max-width:370px){.act{width:112px}.logo{width:62px;height:62px}}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <svg class="ticket" viewBox="0 0 56 46" aria-hidden="true">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs>
+      <g transform="rotate(-18 28 23)"><rect x="4" y="9" width="48" height="28" rx="6" fill="url(#g)"/><circle cx="4" cy="23" r="4" fill="#110c1d"/><circle cx="52" cy="23" r="4" fill="#110c1d"/><text x="28" y="30" text-anchor="middle" font-size="19" font-weight="800" fill="#fff" font-family="Segoe UI,Arial">%</text></g>
+    </svg>
+    <div class="brand"><h1>Cupom<span>Pro</span></h1><p>Pesquise. Economize. Sempre.</p></div>
+    <button class="iconbtn" id="bell" aria-label="Notificações"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button>
+  </header>
+
+  <div id="home">
+  <div class="search">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9bde6" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Pesquise uma loja, ex.: Shein" autocomplete="off" aria-label="Pesquisar cupons">
+    <button class="iconbtn" id="clr" aria-label="Limpar busca" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="bar">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--pl)" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h4M12 12h8M4 17h12M20 17h0"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="17" r="2"/></svg>
+    <b id="count" aria-live="polite"></b>
+    <select class="sort" id="sort" aria-label="Ordenar">
+      <option value="best">Melhor para pior</option>
+      <option value="soon">Loja de A a Z</option>
+      <option value="late">Loja de Z a A</option>
+    </select>
+  </div>
+
+  <p class="vs" style="margin:0 0 10px;font-size:.8rem">Cupons coletados em 11 a 15/11/2026 no Méliuz. Eles podem mudar ou vencer a qualquer momento e têm regras próprias: confira na loja.</p>
+  <div class="cards" id="list"></div>
+
+  <div class="tip">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="#a78bda" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+    <div><b>Dica do CupomPro</b><span id="tip"></span></div>
+  </div>
+  </div>
+
+  <section id="favs" hidden>
+    <h2 class="vt">Favoritos</h2>
+    <p class="vs">Seus cupons salvos, do maior desconto ao menor.</p>
+    <div class="cards" id="favlist"></div>
+  </section>
+
+  <section id="alerts" hidden>
+    <h2 class="vt">Alertas</h2>
+    <p class="vs">Crie um alerta por loja ou categoria e avisamos quando aparecer cupom novo.</p>
+    <div class="mecard">
+      <div class="alrow"><input id="aterm" placeholder="Ex.: Shein, beleza, Nike" maxlength="30" aria-label="Loja ou categoria"><button class="btn solid" id="badd">Criar alerta</button></div>
+      <div class="tags" id="alist"></div>
+      <p id="alim" style="margin:0;font-size:.8rem"></p>
+    </div>
+    <h2 class="vt" style="font-size:1.15rem">Notificações</h2>
+    <div class="notes" id="nlist"></div>
+  </section>
+
+  <section id="me" class="me" hidden>
+    <div class="mecard hero">
+      <div class="avatar"><svg width="34" height="34" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c0-4.6 3.8-7.2 8.5-7.2s8.5 2.6 8.5 7.2z"/></svg></div>
+      <div class="who">
+        <div id="out"><b>Bem-vindo ao CupomPro</b><span>Entre para salvar cupons e receber alertas.</span><div class="btns"><button class="btn solid" id="bin">Entrar</button><button class="btn" id="bcad">Cadastrar</button></div></div>
+        <div id="in" hidden><b id="hello"></b><span id="plan"></span><button class="btn" id="bsair">Sair</button></div>
+      </div>
+    </div>
+
+    <div class="mecard" id="vipcard">
+      <h2>👑 Seja VIP</h2>
+      <p>Garanta os melhores cupons, sem depender da sorte.</p>
+      <ul class="perks"><li>Libera os cupons exclusivos VIP</li><li>Cupons novos antes de todo mundo</li><li>Sem anúncios</li><li>Alertas personalizados</li></ul>
+      <button class="btn solid" id="bvip" style="width:100%">Quero ser VIP · R$ 9,90/mês</button>
+    </div>
+
+    <div class="mecard">
+      <h2>🚀 Impulsionar</h2>
+      <p>Para empresas: pague para o seu cupom aparecer no topo da lista.</p>
+      <div class="form">
+        <label class="field">Nome da loja<input id="iloja" placeholder="Ex.: Minha Loja" maxlength="30"></label>
+        <div class="grid2">
+          <label class="field">Desconto (%)<input id="ipct" type="number" min="1" max="90" placeholder="15"></label>
+          <label class="field">Código<input id="icod" placeholder="LOJA15" maxlength="16"></label>
+        </div>
+        <label class="field">Site da loja<input id="isite" type="url" placeholder="https://minhaloja.com.br"></label>
+        <label class="field">O que o cupom cobre<input id="idesc" placeholder="em toda a loja" maxlength="40"></label>
+        <div class="grid2">
+          <label class="field">Categoria<select id="icat"></select></label>
+          <label class="field">Plano<select id="iplano"><option value="3">3 dias · R$ 19</option><option value="7">7 dias · R$ 49</option><option value="15">15 dias · R$ 99</option></select></label>
+        </div>
+        <button class="btn solid" id="bimp">Pagar e impulsionar</button>
+        <p style="margin:0;font-size:.78rem">Pagamento simulado nesta demonstração.</p>
+      </div>
+    </div>
+
+    <div class="mecard">
+      <h2>💬 Suporte</h2>
+      <p>Dúvidas, problema com cupom ou quer anunciar? Fale com a gente.</p>
+      <a class="btn solid" style="display:block;text-align:center;text-decoration:none" href="https://wa.me/5500000000000" target="_blank" rel="noopener">WhatsApp: (00) 00000-0000</a>
+    </div>
+  </section>
+</div>
+
+<nav><div id="nav"></div></nav>
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <h2 id="mt" style="margin:0">Entrar</h2>
+    <label class="field" id="nameRow" hidden>Nome<input id="mname" maxlength="30" autocomplete="name"></label>
+    <label class="field">E-mail<input id="mmail" type="email" autocomplete="email"></label>
+    <label class="field">Senha<input id="mpass" type="password" autocomplete="current-password"></label>
+    <button class="btn solid" id="msub">Entrar</button>
+    <button class="btn" id="mcancel">Cancelar</button>
+  </div>
+</div>
+<div class="modal" id="csheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shname">
+    <h2 id="shname" style="margin:0;font-size:1.2rem"></h2>
+    <p id="shdesc" class="vs" style="margin:0"></p>
+    <div class="bigcode" id="shcode" title="Toque para copiar"></div>
+    <p class="vs" style="margin:0;text-align:center">Ao copiar, você vai direto para o site da loja. Lá, é só colar o código no carrinho.</p>
+    <p class="vs" style="margin:0;font-size:.8rem">Cada cupom tem regras da loja, como valor mínimo, produtos e validade. Se não funcionar, tente outro da lista.</p>
+    <a class="go" id="shgo" target="_blank" rel="noopener noreferrer" style="padding:13px">Copiar cupom →</a>
+    <a id="shalt" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;font-size:.85rem;color:var(--pl)">Não abriu? Toque aqui para abrir a loja</a>
+    <button class="btn" id="shclose">Fechar</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var COUPONS=[{s:"Magalu",c:"Eletrônicos",p:40,l:"R$ 400 OFF",d:"no pedido (regras na loja)",k:"LU400",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"Magalu",c:"Eletrônicos",p:30,l:"30% OFF",d:"em produtos selecionados",k:"CUPOM30",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"Magalu",c:"Eletrônicos",p:20,l:"R$ 200 OFF",d:"no pedido (regras na loja)",k:"LU200",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"Magalu",c:"Eletrônicos",p:10,l:"R$ 100 OFF",d:"no pedido (regras na loja)",k:"LU100",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"Magalu",c:"Casa",p:20,l:"R$ 200 OFF",d:"em casa e decoração",k:"PDCASA200",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"Magalu",c:"Casa",p:10,l:"10% OFF",d:"em móveis",k:"MOVEIS10OFF",v:"13/11",f:"font-weight:800;font-size:1.1rem"},
+ {s:"O Boticário",c:"Beleza",p:40,l:"40% OFF",d:"no site",k:"INNAMORATA40",v:"13/11",vip:true,f:"font-family:Georgia,serif;font-variant:small-caps;font-size:.9rem"},
+ {s:"O Boticário",c:"Beleza",p:15,l:"15% OFF",d:"no carrinho",k:"BEMVINDO15",v:"13/11",f:"font-family:Georgia,serif;font-variant:small-caps;font-size:.9rem"},
+ {s:"O Boticário",c:"Beleza",p:10,l:"10% OFF",d:"em maquiagem",k:"MAKE",v:"13/11",f:"font-family:Georgia,serif;font-variant:small-caps;font-size:.9rem"},
+ {s:"O Boticário",c:"Beleza",p:5,l:"R$ 50 OFF",d:"no pedido",k:"CINQUENTINHA",v:"13/11",f:"font-family:Georgia,serif;font-variant:small-caps;font-size:.9rem"},
+ {s:"O Boticário",c:"Beleza",p:5,l:"Frete grátis",d:"nos seus pedidos",k:"FRETENAFAIXA",v:"13/11",f:"font-family:Georgia,serif;font-variant:small-caps;font-size:.9rem"},
+ {s:"Natura",c:"Beleza",p:20,l:"20% OFF",d:"Natura Friday",k:"NATURAFRIDAY",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Natura",c:"Beleza",p:20,l:"20% OFF",d:"no pedido",k:"MELIUZNOVO20",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Natura",c:"Beleza",p:15,l:"15% OFF",d:"na primeira compra",k:"PRIMEIRACOMPRA",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Natura",c:"Beleza",p:9,l:"até R$ 88 OFF",d:"em seleção de produtos",k:"DATADUPLA",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Natura",c:"Beleza",p:3,l:"R$ 30 OFF",d:"no pedido",k:"MELIUZ30N",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Natura",c:"Beleza",p:5,l:"Frete grátis + brinde",d:"no pedido",k:"MELIUZNF",v:"13/11",f:"font-size:1.25rem;font-weight:300;letter-spacing:.02em"},
+ {s:"Riachuelo",c:"Moda",p:40,l:"40% OFF",d:"em Carter’s",k:"CARTERSOFF",v:"13/11",f:"font-weight:600;letter-spacing:.08em;font-size:.72rem"},
+ {s:"Riachuelo",c:"Moda",p:30,l:"30% OFF",d:"no pedido",k:"FLASHPROMO",v:"13/11",f:"font-weight:600;letter-spacing:.08em;font-size:.72rem"},
+ {s:"Riachuelo",c:"Moda",p:30,l:"30% OFF",d:"na primeira compra",k:"PRIMEIRACOMPRA30",v:"13/11",f:"font-weight:600;letter-spacing:.08em;font-size:.72rem"},
+ {s:"Riachuelo",c:"Moda",p:20,l:"20% OFF",d:"em jeans",k:"JEANS",v:"13/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Riachuelo",c:"Moda",p:12,l:"12% OFF",d:"no site todo",k:"MELIUZ12",v:"13/11",f:"font-weight:600;letter-spacing:.08em;font-size:.72rem"},
+ {s:"Shein",c:"Moda",p:20,l:"20% OFF",d:"no pedido",k:"SHEINBAE20OFF",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Shein",c:"Moda",p:20,l:"20% OFF",d:"moda praia",k:"SWIMCHICCIA20OFF",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Shein",c:"Moda",p:15,l:"15% OFF",d:"looks infantis",k:"COZYPIXIES15OFF",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Shein",c:"Moda",p:3,l:"R$ 30 OFF",d:"no pedido",k:"MELIUZONLY26",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Shein",c:"Moda",p:1,l:"R$ 12 OFF",d:"na primeira compra",k:"FIRST1",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Shein",c:"Moda",p:5,l:"Frete grátis",d:"no pedido",k:"26SHEIN77",v:"12/11",f:"font-weight:800;letter-spacing:.14em;font-size:.95rem"},
+ {s:"Petz",c:"Pets",p:40,l:"40% OFF",d:"em itens selecionados",k:"FERPLAST40",v:"11/11",vip:true,f:"font-weight:800;font-size:1.2rem"},
+ {s:"Petz",c:"Pets",p:30,l:"30% OFF",d:"ração Pro Plan",k:"PROPLAN30",v:"11/11",f:"font-weight:800;font-size:1.2rem"},
+ {s:"Petz",c:"Pets",p:15,l:"15% OFF",d:"no pedido",k:"QUERO15OFF",v:"11/11",f:"font-weight:800;font-size:1.2rem"},
+ {s:"Petz",c:"Pets",p:10,l:"10% OFF",d:"no site todo",k:"MELIUZ10",v:"11/11",f:"font-weight:800;font-size:1.2rem"},
+ {s:"Petz",c:"Pets",p:10,l:"10% OFF",d:"na primeira compra",k:"BEMVINDO10",v:"11/11",f:"font-weight:800;font-size:1.2rem"}
+ ,{s:"99Food",c:"Comida",p:70,l:"70% OFF",d:"no pedido pelo app (regras na loja)",k:"PEGA70",v:"15/11",f:"font-weight:800;font-size:1.6rem;color:#ffc400"},
+ {s:"iFood",c:"Comida",p:5,l:"até R$ 50 OFF",d:"no pedido",k:"SEMPRECOMIFOOD50",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:3,l:"R$ 25 OFF",d:"no primeiro pedido",k:"GANHE25",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:2,l:"R$ 20 OFF",d:"no pedido",k:"PODPAH20",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:15,l:"15% OFF + frete grátis",d:"no pedido",k:"CUPOM15FG",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:15,l:"15% OFF",d:"no pedido",k:"DESCONTO15",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:2,l:"R$ 20 OFF",d:"em pizza",k:"P1ZZ4S3MPRE10",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:2,l:"R$ 15 OFF",d:"em lanches",k:"H4PPY15",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"iFood",c:"Comida",p:3,l:"até R$ 30 OFF",d:"em mercado e farmácia",k:"VEMMERCADO",v:"14/11",f:"font-weight:800;font-size:1.25rem;color:#ea1d2c;letter-spacing:-.03em"},
+ {s:"Zé Delivery",c:"Comida",p:40,l:"40% OFF",d:"no pedido",k:"ZEMELIUZ15",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Zé Delivery",c:"Comida",p:40,l:"40% OFF",d:"em petiscos",k:"PETISCOPROJOGO",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Zé Delivery",c:"Comida",p:10,l:"R$ 100 OFF",d:"em Chopp Brahma",k:"CHOPPBRAHMA100",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Zé Delivery",c:"Comida",p:10,l:"R$ 100 OFF",d:"no app",k:"FIMDEANO100",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Zé Delivery",c:"Comida",p:2,l:"R$ 20 OFF",d:"na primeira compra",k:"PRIMEIRACOM20",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Zé Delivery",c:"Comida",p:5,l:"Frete grátis",d:"na primeira compra",k:"1TAGRATIS",v:"14/11",f:"font-weight:800;font-size:.85rem;color:#ffd400;line-height:1.1"},
+ {s:"Amazon",c:"Eletrônicos",p:50,l:"até 50% OFF",d:"na Black dos Sonhos",k:"CUPONSBF",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:45,l:"até R$ 1.000 OFF",d:"em eletrônicos",k:"DEVOLTA1000",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:15,l:"R$ 150 OFF",d:"no pedido",k:"BLACK150",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:10,l:"R$ 100 OFF",d:"no pedido",k:"BLACK100OFF",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:20,l:"20% OFF",d:"no pedido",k:"PRIMEBLACK20",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:20,l:"20% OFF",d:"em acessórios de tecnologia",k:"TECH20",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:2,l:"R$ 20 OFF",d:"na primeira compra",k:"APPCOMPRA",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"},
+ {s:"Amazon",c:"Eletrônicos",p:30,l:"30% OFF",d:"no primeiro eBook",k:"LER30",v:"14/11",f:"font-weight:700;font-size:1.05rem;letter-spacing:-.02em"}
+];
+var AFILIADOS={
+  // Cole aqui o link de afiliado de cada loja, no formato:
+  // "Shein":"https://link-de-afiliado-da-shein",
+};
+var SITES={"Shein":"https://br.shein.com","O Boticário":"https://www.boticario.com.br","Natura":"https://www.natura.com.br","Riachuelo":"https://www.riachuelo.com.br","C&A":"https://www.cea.com.br","Zara":"https://www.zara.com/br","Renner":"https://www.lojasrenner.com.br","Magalu":"https://www.magazineluiza.com.br","Amazon":"https://www.amazon.com.br","Americanas":"https://www.americanas.com.br","Tok&Stok":"https://www.tokstok.com.br","Petz":"https://www.petz.com.br","Centauro":"https://www.centauro.com.br","Nike":"https://www.nike.com.br","iFood":"https://www.ifood.com.br","99Food":"https://99app.com","Zé Delivery":"https://www.ze.delivery"};
+var CATS=["Todos","Moda","Beleza","Eletrônicos","Casa","Comida","Pets"];
+var cat="Todos",user=null,vip=false;
+var $=function(i){return document.getElementById(i)};
+var q=$("q"),list=$("list"),clr=$("clr");
+
+function norm(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove("show")},2000)}
+function copy(code){
+  function ok(){toast("Cupom "+code+" copiado!")}
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(ok,fb);return} }catch(e){}
+  fb();
+  function fb(){try{var a=document.createElement("textarea");a.value=code;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch(e){toast("Código: "+code)}}
+}
+var icoCopy='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+var icoClock='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+var TAGS=["Melhor Oferta","Ótimo Desconto","Excelente!"];
+
+function render(){
+  var terms=norm(q.value).split(/\s+/).filter(function(w){return w&&w!=="cupom"&&w!=="cupons"&&w!=="de"});
+  var mode=$("sort").value;
+  var r=COUPONS.filter(function(x){
+    if(cat!=="Todos"&&x.c!==cat)return false;
+    var hay=norm([x.s,x.c,x.d,x.k].join(" "));
+    return terms.every(function(w){return hay.indexOf(w)>-1});
+  });
+  r.sort(function(a,b){return mode==="soon"?a.s.localeCompare(b.s):mode==="late"?b.s.localeCompare(a.s):b.p-a.p||a.e-b.e});
+  r=r.filter(function(x){return x.boost}).concat(r.filter(function(x){return !x.boost}));
+  clr.hidden=!q.value;
+  $("count").textContent="Cupons encontrados: "+r.length;
+  list.innerHTML="";
+  if(!r.length){list.innerHTML='<div class="empty">Nenhum cupom encontrado.<br>Tente outra loja ou categoria.</div>'}
+  r.forEach(function(x,i){list.appendChild(cardEl(x,i,mode))});
+  setTip(r);
+}
+function cardEl(x,i,mode){
+    var el=document.createElement("article");el.className="cp";
+    var rk=i<3?" r"+(i+1):"";
+    var lock=x.vip&&!vip;
+    var href=lock?"":(x.u||AFILIADOS[x.s]||SITES[x.s]||"");
+    var tg=x.boost?"Impulsionado":x.vip?"Exclusivo VIP":(i<3&&mode==="best"?TAGS[i]:"");
+    el.innerHTML=(tg?'<span class="tag">'+tg+'</span>':'')+
+     '<span class="rank'+rk+'">'+(i+1)+'</span>'+
+     '<div class="logo"><span style="'+x.f+'">'+x.s+'</span></div>'+
+     '<div class="info"><div class="pct">'+(x.l||x.p+'% OFF')+'</div><div class="desc">'+x.d+'</div><div class="exp">'+icoClock+(x.e?'Expira em '+x.e+(x.e===1?' dia':' dias'):'Visto em '+x.v)+heart(x)+'</div></div>'+
+     '<div class="act"><button class="code" aria-label="Copiar cupom '+x.k+'">'+(lock?'🔒 Só VIP':x.k+icoCopy)+'</button><button class="go">'+(lock?'Seja VIP →':'Ver Cupom →')+'</button></div>';
+    var act=lock?function(){show("me");toast("Seja VIP para liberar este cupom")}:function(){copy(x.k)};
+    el.querySelector(".code").onclick=act;
+    el.querySelector(".go").onclick=lock?act:function(){openSheet(x,href)};
+    el.querySelector(".fav").onclick=function(){toggleFav(x)};
+    return el;
+}
+function setTip(r){
+  var n=r.slice(0,2).map(function(x){return x.s});
+  $("tip").textContent=n.length>1?"Os cupons da "+n[0]+" e da "+n[1]+" estão entre os mais usados e oferecem os maiores descontos desta busca!":n.length?"O cupom da "+n[0]+" é o mais usado desta busca. Corra, ele expira em breve!":"Pesquise por uma loja ou escolha uma categoria para ver os cupons.";
+}
+CATS.forEach(function(c){
+  var b=document.createElement("button");b.className="chip"+(c===cat?" on":"");b.textContent=c;
+  b.onclick=function(){cat=c;[].forEach.call($("chips").children,function(e){e.classList.toggle("on",e===b)});render()};
+  $("chips").appendChild(b);
+});
+var NAV=[["Início",'<path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'],["Favoritos",'<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>'],["Alertas",'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/>'],["Eu",'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>']];
+NAV.forEach(function(n,i){
+  var b=document.createElement("button");if(!i)b.className="on";
+  b.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="'+(i?'none':'currentColor')+'" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+n[1]+'</svg>'+n[0];
+  b.onclick=function(){show(VIEWS[i])};
+  $("nav").appendChild(b);
+});
+[].forEach.call(document.querySelectorAll("[data-soon]"),function(e){e.onclick=function(){toast(e.getAttribute("data-soon"))}});
+q.addEventListener("input",render);$("sort").addEventListener("change",render);
+clr.onclick=function(){q.value="";q.focus();render()};
+
+function esc(t){return String(t).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
+function show(v){
+  VIEWS.forEach(function(n,i){$(n).hidden=n!==v;$("nav").children[i].classList.toggle("on",n===v)});
+  if(v==="favs")renderFavs();
+  if(v==="alerts"){renderAlerts();markRead()}
+  window.scrollTo(0,0);
+}
+function refreshMe(){
+  $("out").hidden=!!user;$("in").hidden=!user;
+  if(user){$("hello").textContent="Olá, "+user.name+"!";$("plan").textContent=vip?"👑 Plano VIP ativo":"Plano gratuito"}
+  $("bvip").textContent=vip?"Você é VIP ✓":"Quero ser VIP · R$ 9,90/mês";
+  $("bvip").disabled=vip;
+  refreshAll();
+}
+var authMode="in";
+function openModal(m){
+  authMode=m;$("mt").textContent=m==="in"?"Entrar":"Criar conta";
+  $("nameRow").hidden=m==="in";$("msub").textContent=m==="in"?"Entrar":"Cadastrar";
+  $("modal").hidden=false;
+}
+$("bin").onclick=function(){openModal("in")};
+$("bcad").onclick=function(){openModal("up")};
+$("mcancel").onclick=function(){$("modal").hidden=true};
+$("modal").onclick=function(e){if(e.target===this)this.hidden=true};
+$("msub").onclick=function(){
+  var m=$("mmail").value.trim(),p=$("mpass").value,n=$("mname").value.trim();
+  if(m.indexOf("@")<1){toast("Digite um e-mail válido");return}
+  if(p.length<4){toast("A senha precisa ter 4 caracteres ou mais");return}
+  if(authMode==="up"&&!n){toast("Digite seu nome");return}
+  user={name:authMode==="up"?n:m.split("@")[0]};
+  $("modal").hidden=true;$("mpass").value="";
+  refreshMe();toast(authMode==="up"?"Conta criada!":"Você entrou!");
+};
+$("bsair").onclick=function(){user=null;vip=false;refreshMe();toast("Você saiu da conta")};
+$("bvip").onclick=function(){
+  if(!user){openModal("up");toast("Cadastre-se para virar VIP");return}
+  vip=true;refreshMe();toast("Você agora é VIP! (demonstração)");
+};
+$("icat").innerHTML=CATS.slice(1).map(function(c){return"<option>"+c+"</option>"}).join("");
+$("bimp").onclick=function(){
+  var s=$("iloja").value.trim(),p=+$("ipct").value,k=$("icod").value.trim().toUpperCase(),d=$("idesc").value.trim()||"em toda a loja";
+  var u=$("isite").value.trim();
+  if(!s||!k||!(p>=1&&p<=90)){toast("Preencha loja, desconto (1 a 90) e código");return}
+  if(!/^https?:\/\/[^\s]+\.[^\s]+$/i.test(u)){toast("Digite o site completo, começando com https://");return}
+  COUPONS.unshift({s:esc(s),c:$("icat").value,p:p,d:esc(d),k:esc(k),e:+$("iplano").value,boost:true,u:esc(u),l:p+"% OFF",f:"font-weight:800;font-size:.9rem"});
+  ["iloja","ipct","icod","idesc","isite"].forEach(function(i){$(i).value=""});
+  q.value="";cat="Todos";[].forEach.call($("chips").children,function(e,j){e.classList.toggle("on",j===0)});
+  var nc=COUPONS[0];
+  alerts.forEach(function(a){if(matches(a,nc))addNote("new|"+nc.k+"|"+Date.now(),"🔔 Novo cupom: "+nc.s+" "+(nc.l||nc.p+"% OFF")+", código "+nc.k+" (alerta: "+esc(a)+")")});
+  show("home");refreshAll();toast("Cupom impulsionado! Ele está no topo.");
+};
+
+var VIEWS=["home","favs","alerts","me"];
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var favs=ld("cp_favs",[]),alerts=ld("cp_alerts",[]),notes=ld("cp_notes",[]);
+function fkey(x){return x.s+"|"+x.k}
+function isFav(x){return favs.indexOf(fkey(x))>-1}
+function heart(x){var on=isFav(x);return '<button class="fav" aria-pressed="'+on+'" aria-label="'+(on?'Remover dos favoritos':'Favoritar')+'"><svg width="22" height="22" viewBox="0 0 24 24" fill="'+(on?'#ff5c8a':'none')+'" stroke="'+(on?'#ff5c8a':'currentColor')+'" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg></button>'}
+function addNote(id,txt){
+  if(notes.some(function(n){return n.id===id}))return;
+  notes.unshift({id:id,t:txt,r:0});notes=notes.slice(0,30);sv("cp_notes",notes);
+}
+function expNote(x){addNote("exp|"+fkey(x),"⏰ "+x.s+" ("+x.k+") expira em "+x.e+(x.e===1?" dia":" dias")+"!")}
+function toggleFav(x){
+  var k=fkey(x),i=favs.indexOf(k);
+  if(i>-1){favs.splice(i,1);toast("Removido dos favoritos")}
+  else{favs.push(k);toast("Salvo nos favoritos");if(x.e<=3)expNote(x)}
+  sv("cp_favs",favs);refreshAll();
+}
+function badge(){var b=$("nav").children[2],n=notes.filter(function(x){return !x.r}).length;if(n)b.setAttribute("data-n",n);else b.removeAttribute("data-n")}
+function markRead(){notes.forEach(function(n){n.r=1});sv("cp_notes",notes);badge()}
+function matches(term,x){var hay=norm([x.s,x.c,x.d,x.k].join(" "));return norm(term).split(/\s+/).filter(Boolean).every(function(w){return hay.indexOf(w)>-1})}
+function renderFavs(){
+  var box=$("favlist");box.innerHTML="";
+  var r=COUPONS.filter(isFav).sort(function(a,b){return b.p-a.p});
+  if(!r.length){box.innerHTML='<div class="empty">Você ainda não favoritou nenhum cupom.<br>Toque no coração de um cupom para salvar aqui.</div>';return}
+  r.forEach(function(x,i){box.appendChild(cardEl(x,i,"fav"))});
+}
+function renderAlerts(){
+  var l=$("alist");l.innerHTML="";
+  alerts.forEach(function(a,i){
+    var s=document.createElement("span");s.className="atag";
+    var t=document.createElement("span");t.textContent=a;
+    var b=document.createElement("button");b.textContent="×";b.setAttribute("aria-label","Remover alerta "+a);
+    b.onclick=function(){alerts.splice(i,1);sv("cp_alerts",alerts);renderAlerts()};
+    s.appendChild(t);s.appendChild(b);l.appendChild(s);
+  });
+  if(!alerts.length)l.innerHTML='<span class="vs" style="margin:0">Nenhum alerta ainda.</span>';
+  $("alim").textContent=vip?"Plano VIP: alertas ilimitados.":"Plano gratuito: até 2 alertas ("+alerts.length+"/2). O VIP libera alertas ilimitados.";
+  var n=$("nlist");n.innerHTML="";
+  if(!notes.length){n.innerHTML='<div class="empty">Sem notificações por enquanto.</div>';return}
+  notes.forEach(function(x){var d=document.createElement("div");d.className="note"+(x.r?"":" new");d.innerHTML=x.t;n.appendChild(d)});
+}
+function refreshAll(){render();renderFavs();renderAlerts();badge()}
+$("badd").onclick=function(){
+  var t=$("aterm").value.trim();
+  if(!t){toast("Digite uma loja ou categoria");return}
+  if(alerts.some(function(a){return norm(a)===norm(t)})){toast("Você já tem esse alerta");return}
+  if(!vip&&alerts.length>=2){toast("Limite de 2 alertas. Seja VIP para criar mais!");return}
+  alerts.push(t);sv("cp_alerts",alerts);$("aterm").value="";
+  var n=COUPONS.filter(function(x){return matches(t,x)}).length;
+  addNote("al|"+norm(t)+"|"+Date.now(),"🔔 Alerta criado para <b>"+esc(t)+"</b>: "+(n?n+(n===1?" cupom disponível agora.":" cupons disponíveis agora."):"nenhum cupom por enquanto. Avisaremos quando aparecer."));
+  renderAlerts();markRead();toast("Alerta criado!");
+};
+$("aterm").addEventListener("keydown",function(e){if(e.key==="Enter")$("badd").click()});
+$("bell").onclick=function(){show("alerts")};
+var curCode="",curHref="";
+function openSheet(x,href){
+  var t=document.createElement("textarea");t.innerHTML=href||"";href=t.value;
+  t.innerHTML=x.k;curCode=t.value;
+  $("shname").innerHTML=x.s+" · "+(x.l||x.p+"% OFF");
+  $("shdesc").innerHTML=x.d;
+  $("shcode").textContent=curCode;
+  curHref=href||"";
+  [$("shgo"),$("shalt")].forEach(function(a){if(curHref)a.setAttribute("href",curHref);else a.removeAttribute("href")});
+  $("shalt").hidden=!curHref;
+  $("csheet").hidden=false;
+}
+$("shcode").onclick=function(){$("shgo").click()};
+$("shgo").onclick=function(){copy(curCode)};
+$("shclose").onclick=function(){$("csheet").hidden=true};
+$("csheet").onclick=function(e){if(e.target===this)this.hidden=true};
+COUPONS.forEach(function(x){if(isFav(x)&&x.e<=3)expNote(x)});
+refreshAll();
+</script>
+</body>
+</html>
